@@ -80,6 +80,7 @@ getEquipmentsByDomain(String domain){
 
         equipmentDao.delete(equipment);
     }
+
     public List<Map<String, Object>>
     getEquipmentsWithLatestData() {
 
@@ -162,4 +163,88 @@ getEquipmentsByDomain(String domain){
         return result;
     }
 
+    public List<Map<String, Object>>
+    getEquipmentsWithLatestDataByDomain(
+            String domain
+    ) {
+
+        List<Equipment> equipments =
+                equipmentDao.findByDomain(domain);
+
+        List<Map<String, Object>> result =
+                new ArrayList<>();
+
+        for (Equipment eq : equipments) {
+
+            Map<String, Object> map =
+                    new HashMap<>();
+
+            map.put("id", eq.getId());
+
+            map.put("name", eq.getName());
+
+            map.put("domain", eq.getDomain());
+
+            map.put("type", eq.getType());
+
+            map.put("status", eq.getStatus());
+
+            Data latestData =
+                    dataDao.findTopByEquipmentIdOrderByDateDesc(
+                            eq.getId()
+                    );
+
+            if (latestData != null) {
+
+                map.put(
+                        "temperature",
+                        latestData.getTemperature()
+                );
+
+                map.put(
+                        "runtime",
+                        latestData.getRuntime()
+                );
+
+                map.put(
+                        "vibration",
+                        latestData.getVibration()
+                );
+
+                map.put(
+                        "pressure",
+                        latestData.getPressure()
+                );
+
+                map.put(
+                        "humidity",
+                        latestData.getHumidity()
+                );
+
+                map.put(
+                        "currentValue",
+                        latestData.getCurrentValue()
+                );
+
+                map.put(
+                        "voltage",
+                        latestData.getVoltage()
+                );
+
+            } else {
+
+                map.put("temperature", 0);
+                map.put("runtime", 0);
+                map.put("vibration", 0);
+                map.put("pressure", 0);
+                map.put("humidity", 0);
+                map.put("currentValue", 0);
+                map.put("voltage", 0);
+            }
+
+            result.add(map);
+        }
+
+        return result;
+    }
 }

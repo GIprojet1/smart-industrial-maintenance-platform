@@ -376,71 +376,114 @@ function Dashboard() {
 
         </div>
 
-        {/* TABLE */}
+{/* TABLE */}
 
-        <div className="table-card">
+<div className="table-card">
 
-          <div className="card-title">
-            <FaMicrochip />
-            <h2>Equipments Overview</h2>
-          </div>
+  <div className="card-title">
+    <FaMicrochip />
+    <h2>Equipments Overview</h2>
+  </div>
 
-          <table>
+  <table>
 
-            <thead>
-              <tr>
-                <th>ID-equipement</th>
-                <th>Name</th>
-                <th>Temperature</th>
-                <th>Runtime</th>
-                <th>Vibration</th>
-                <th>Pressure</th>
-              </tr>
-            </thead>
+    <thead>
+      <tr>
+        <th>ID-equipement</th>
+        <th>Name</th>
+        <th>Domain</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Temperature</th>
+        <th>Runtime</th>
+        <th>Vibration</th>
+        <th>Pressure</th>
+        <th>Humidity</th>
+        <th>Current</th>
+        <th>Voltage</th>
+       
+      </tr>
+    </thead>
 
-            <tbody>
+    <tbody>
 
-              {equipments.length === 0 ? (
-                <tr>
-                  <td colSpan="6">
-                    No equipment data available
-                  </td>
-                </tr>
-              ) : (
-                equipments.map((eq) => (
-                  <tr key={eq.id}>
+      {equipments.length === 0 ? (
 
-                    <td>#{eq.id}</td>
+        <tr>
+          <td colSpan="14">
+            No equipment data available
+          </td>
+        </tr>
 
-                    <td>{eq.name}</td>
+      ) : (
 
-                    <td>
-                      <span
-                        className={
-                          Number(eq.temperature || 0) >= 100
-                            ? "danger-text"
-                            : "normal-text"
-                        }
-                      >
-                        {eq.temperature || 0} °C
-                      </span>
-                    </td>
+        equipments.map((eq) => (
 
-                    <td>{eq.runtime || 0} h</td>
+          <tr key={eq.id}>
 
-                    <td>{eq.vibration || 0}</td>
+            <td>#{eq.id}</td>
 
-                    <td>{eq.pressure || 0} bar</td>
+            <td>{eq.name}</td>
 
-                  </tr>
-                ))
-              )}
+            <td>{eq.domain}</td>
 
-            </tbody>
+            <td>{eq.type}</td>
 
-          </table>
+            <td>
 
-        </div>
+              <span
+                className={
+                  eq.status === "ACTIF"
+                    ? "status-active"
+                    : eq.status === "EN_MAINTENANCE"
+                    ? "status-maintenance"
+                    : "status-broken"
+                }
+              >
+                {eq.status}
+              </span>
+
+            </td>
+
+            <td>
+
+              <span
+                className={
+                  Number(eq.temperature || 0) >= 100
+                    ? "danger-text"
+                    : "normal-text"
+                }
+              >
+                {eq.temperature || 0} °C
+              </span>
+
+            </td>
+
+            <td>{eq.runtime || 0} h</td>
+
+            <td>{eq.vibration || 0}</td>
+
+            <td>{eq.pressure || 0} bar</td>
+
+            <td>{eq.humidity || 0} %</td>
+
+            <td>{eq.currentValue || 0} A</td>
+
+            <td>{eq.voltage || 0} V</td>
+
+           
+
+          </tr>
+
+        ))
+
+      )}
+
+    </tbody>
+
+  </table>
+
+</div>
 
       </div>
     </div>

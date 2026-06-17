@@ -56,10 +56,8 @@ public class EquipmentWs {
                 );
     }
     // ✅ DELETE
-    @DeleteMapping("/equipments/{id}")
-    public void deleteEquipment(
-            @PathVariable Long id
-    ) {
+    @DeleteMapping("/{id}")
+    public void deleteEquipment(@PathVariable Long id) {
         equipmentService.deleteEquipment(id);
     }
 
@@ -105,7 +103,17 @@ public class EquipmentWs {
         return equipmentService
                 .getEquipmentsByDomain(domain);
     }
+    @GetMapping("/with-data/domain/{domain}")
+    public List<Map<String, Object>>
+    getEquipmentsWithDataByDomain(
+            @PathVariable String domain
+    ) {
 
+        return equipmentService
+                .getEquipmentsWithLatestDataByDomain(
+                        domain
+                );
+    }
 
 
 }

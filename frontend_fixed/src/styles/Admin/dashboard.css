@@ -16,17 +16,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   padding: 30px;
-
   background: linear-gradient(135deg, #0f172a, #1e293b);
-
   border-radius: 24px;
   margin-bottom: 30px;
-
   color: white;
-
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
 .dashboard-title {
@@ -46,7 +41,7 @@
 
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
   gap: 20px;
   margin-bottom: 30px;
 }
@@ -56,35 +51,30 @@
 ========================= */
 
 .kpi-card {
-  background: #fff;
-
+  background: white;
   border-radius: 20px;
   padding: 25px;
-
   display: flex;
   align-items: center;
   gap: 18px;
-
   border: 1px solid #e2e8f0;
 
   box-shadow:
-    0 4px 6px rgba(15, 23, 42, 0.05),
-    0 10px 20px rgba(15, 23, 42, 0.08);
+    0 4px 6px rgba(15,23,42,.05),
+    0 10px 20px rgba(15,23,42,.08);
 
-  transition: all 0.3s ease;
+  transition: .3s;
 }
 
 .kpi-card:hover {
   transform: translateY(-5px);
-
   box-shadow:
-    0 12px 24px rgba(15, 23, 42, 0.12);
+    0 12px 24px rgba(15,23,42,.12);
 }
 
 .kpi-icon {
   width: 65px;
   height: 65px;
-
   border-radius: 16px;
 
   display: flex;
@@ -109,8 +99,6 @@
    KPI COLORS
 ========================= */
 
-/* Temperature */
-
 .kpi-card.orange {
   border-left: 5px solid #f59e0b;
 }
@@ -120,18 +108,14 @@
   color: #f59e0b;
 }
 
-/* Runtime */
-
-.kpi-card.indigo {
-  border-left: 5px solid #6366f1;
+.kpi-card.blue {
+  border-left: 5px solid #3b82f6;
 }
 
-.kpi-card.indigo .kpi-icon {
-  background: #e0e7ff;
-  color: #6366f1;
+.kpi-card.blue .kpi-icon {
+  background: #dbeafe;
+  color: #2563eb;
 }
-
-/* Vibration */
 
 .kpi-card.purple {
   border-left: 5px solid #8b5cf6;
@@ -142,8 +126,6 @@
   color: #8b5cf6;
 }
 
-/* Pressure */
-
 .kpi-card.cyan {
   border-left: 5px solid #0891b2;
 }
@@ -153,8 +135,6 @@
   color: #0891b2;
 }
 
-/* Critical */
-
 .kpi-card.red {
   border-left: 5px solid #dc2626;
 }
@@ -163,8 +143,6 @@
   background: #fee2e2;
   color: #dc2626;
 }
-
-/* Equipments */
 
 .kpi-card.green {
   border-left: 5px solid #16a34a;
@@ -193,27 +171,24 @@
 .chart-card,
 .status-card,
 .table-card {
-  background: #fff;
-
+  background: white;
   border-radius: 22px;
   padding: 25px;
-
   border: 1px solid #e2e8f0;
 
   box-shadow:
-    0 4px 6px rgba(15, 23, 42, 0.05),
-    0 10px 20px rgba(15, 23, 42, 0.06);
+    0 4px 6px rgba(15,23,42,.05),
+    0 10px 20px rgba(15,23,42,.06);
 
-  transition: all 0.3s ease;
+  transition: .3s;
 }
 
 .chart-card:hover,
 .status-card:hover,
 .table-card:hover {
   transform: translateY(-4px);
-
   box-shadow:
-    0 12px 24px rgba(15, 23, 42, 0.10);
+    0 12px 24px rgba(15,23,42,.10);
 }
 
 .full-width {
@@ -228,10 +203,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-
   margin-bottom: 20px;
   padding-bottom: 12px;
-
   border-bottom: 1px solid #e2e8f0;
 }
 
@@ -247,8 +220,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  font-size: 18px;
 }
 
 .card-title h2 {
@@ -262,8 +233,13 @@
    TABLE
 ========================= */
 
+.table-card {
+  overflow-x: auto;
+}
+
 .table-card table {
   width: 100%;
+  min-width: 1900px;
   border-collapse: collapse;
 }
 
@@ -272,24 +248,23 @@
 }
 
 .table-card th {
+  padding: 15px;
   text-align: left;
-  padding: 16px;
-
   color: #2563eb;
   font-size: 14px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .table-card td {
-  padding: 16px;
-
+  padding: 15px;
   border-top: 1px solid #e2e8f0;
-
   color: #0f172a;
+  white-space: nowrap;
 }
 
 .table-card tbody tr {
-  transition: 0.2s;
+  transition: .2s;
 }
 
 .table-card tbody tr:hover {
@@ -297,27 +272,63 @@
 }
 
 /* =========================
-   RECHARTS
+   STATUS BADGES
 ========================= */
 
-.recharts-cartesian-grid line {
-  stroke: #e2e8f0;
+.status-active {
+  background: #dcfce7;
+  color: #166534;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
 }
 
-.recharts-tooltip-wrapper {
-  border-radius: 12px;
+.status-maintenance {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
 }
 
-.recharts-default-tooltip {
-  border: none !important;
-  border-radius: 12px !important;
-
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.08);
+.status-broken {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
 }
 
 /* =========================
-   TEMPERATURE STATUS
+   PREDICTION BADGES
+========================= */
+
+.prediction-ok {
+  background: #dcfce7;
+  color: #166534;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.prediction-warning {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.prediction-danger {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* =========================
+   TEMPERATURE COLORS
 ========================= */
 
 .danger-text {
@@ -331,16 +342,31 @@
 }
 
 /* =========================
+   TOOLTIP
+========================= */
+
+.recharts-tooltip-wrapper {
+  border-radius: 12px;
+}
+
+.recharts-default-tooltip {
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+
+/* =========================
    RESPONSIVE
 ========================= */
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
   .main-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 768px) {
+
   .dashboard-page {
     padding: 15px;
   }
@@ -357,5 +383,9 @@
 
   .kpi-card h2 {
     font-size: 24px;
+  }
+
+  .table-card table {
+    min-width: 1700px;
   }
 }

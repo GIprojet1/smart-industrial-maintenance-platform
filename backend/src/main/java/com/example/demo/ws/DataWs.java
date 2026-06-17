@@ -26,6 +26,7 @@ public class DataWs {
     public Data create(@RequestBody DataRequest request) {
         return dataService.saveDataFromDto(request);
     }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         dataService.deleteData(id);

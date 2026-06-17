@@ -1,259 +1,181 @@
-import React, {
-  useEffect,
-  useState
-} from "react";
-
-import API
-from "../../services/api";
-
+import React, { useEffect, useState } from "react";
+import API from "../../services/api";
 import "../../styles/Technician/technician.css";
 
 function TechnicianDashboard() {
 
-  // ======================
-  // USER
-  // ======================
-
-  // Récupérer le domaine et le nom d'utilisateur depuis le localStorage (stockés après connexion JWT)
-  const domain   = localStorage.getItem("domain");
+  const domain = localStorage.getItem("domain");
   const username = localStorage.getItem("username");
 
-  // ======================
-  // STATES
-  // ======================
-
-  const [
-    equipments,
-    setEquipments
-  ] = useState([]);
-
-  const [
-    loading,
-    setLoading
-  ] = useState(true);
-
-  // ======================
-  // LOAD DATA
-  // ======================
+  const [equipments, setEquipments] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
-    const fetchData =
-      async () => {
+    const fetchData = async () => {
 
-        try {
+      try {
 
-          const res =
-            await API.get(
+        const res = await API.get(
+          `/equipments/with-data/domain/${domain}`
+        );
 
-              `/equipments/domain/${domain}`
+        setEquipments(res.data);
 
-            );
+      } catch (error) {
 
-          setEquipments(
-            res.data
-          );
+        console.error(error);
 
-        } catch (err) {
+      } finally {
 
-          console.log(err);
-
-        } finally {
-
-          setLoading(false);
-        }
-      };
+        setLoading(false);
+      }
+    };
 
     fetchData();
 
   }, [domain]);
 
-  // ======================
-  // COUNTERS
-  // ======================
+  const totalEquipments = equipments.length;
 
-  const totalEquipments =
-    equipments.length;
+  const activeEquipments = equipments.filter(
+    (e) => e.status === "ACTIF"
+  ).length;
 
-  const activeEquipments =
-    equipments.filter(
-      (e) =>
-        e.status ===
-        "ACTIF"
-    ).length;
+  const maintenanceEquipments = equipments.filter(
+    (e) => e.status === "EN_MAINTENANCE"
+  ).length;
 
-  const maintenanceEquipments =
-    equipments.filter(
-      (e) =>
-        e.status ===
-        "EN_MAINTENANCE"
-    ).length;
-
-  const brokenEquipments =
-    equipments.filter(
-      (e) =>
-        e.status ===
-        "EN_PANNE"
-    ).length;
+  const brokenEquipments = equipments.filter(
+    (e) => e.status === "EN_PANNE"
+  ).length;
 
   return (
-
     <div className="tech-dashboard">
 
-      {/* HEADER */}
-
       <div className="tech-header">
-
         <div>
-
-          <h1>
-           Bienvenue {username}
-          </h1>
-
-          <p>
-            Domaine :
-            {" "}
-            {domain}
-          </p>
-
+          <h1>Bienvenue {username}</h1>
+          <p>Domaine : {domain}</p>
         </div>
-
       </div>
-
-      {/* STATS */}
 
       <div className="stats-grid">
 
         <div className="stat-card">
-
-          <h3>
-           Équipements
-          </h3>
-
-          <span>
-            {totalEquipments}
-          </span>
-
+          <h3>Équipements</h3>
+          <span>{totalEquipments}</span>
         </div>
 
         <div className="stat-card">
-
-          <h3>
-            Actifs
-          </h3>
-
-          <span>
-            {activeEquipments}
-          </span>
-
+          <h3>Actifs</h3>
+          <span>{activeEquipments}</span>
         </div>
 
         <div className="stat-card">
-
-          <h3>
-            Maintenance
-          </h3>
-
-          <span>
-            {maintenanceEquipments}
-          </span>
-
+          <h3>Maintenance</h3>
+          <span>{maintenanceEquipments}</span>
         </div>
 
         <div className="stat-card">
-
-          <h3>
-            En panne
-          </h3>
-
-          <span>
-            {brokenEquipments}
-          </span>
-
+          <h3>En panne</h3>
+          <span>{brokenEquipments}</span>
         </div>
 
       </div>
 
-      {/* TITLE */}
-
       <h2 className="section-title">
-
-       Mes Équipements
-
+        Mes Équipements
       </h2>
 
-      {/* CONTENT */}
+      {loading ? (
 
-      {
-        loading ? (
+        <div className="empty-box">
+          <h3>Chargement...</h3>
+        </div>
 
-          <div className="empty-box">
+      ) : equipments.length === 0 ? (
 
-            <h3>
-             Chargement...
-            </h3>
+        <div className="empty-box">
+          <h3>Aucun équipement trouvé</h3>
+        </div>
 
-          </div>
+      ) : (
 
-        ) : equipments.length === 0 ? (
+        <div className="tech-cards">
 
-          <div className="empty-box">
+          {equipments.map((e) => (
 
-            <h3>
-              Aucun équipement trouvé
-            </h3>
+            <div
+              key={e.id}
+              className="tech-card"
+            >
 
-            <p>
-              Aucun équipement dans votre domaine
-            </p>
+              <div
+                className={`status-dot ${e.status}`}
+              ></div>
 
-          </div>
+              <h2>{e.name}</h2>
 
-        ) : (
+              <p>
+                <strong>Type :</strong> {e.type}
+              </p>
 
-          <div className="tech-cards">
+              <p>
+                🌡 Température :
+                {" "}
+                {e.temperature} °C
+              </p>
 
-            {
-              equipments.map(
-                (e) => (
+              <p>
+                📳 Vibration :
+                {" "}
+                {e.vibration}
+              </p>
 
-                  <div
-                    key={e.id}
-                    className="tech-card"
-                  >
+              <p>
+                ⚙ Pression :
+                {" "}
+                {e.pressure} bar
+              </p>
 
-                    <div
-                      className={
-                        `status-dot ${e.status}`
-                      }
-                    ></div>
+              <p>
+                ⏱ Runtime :
+                {" "}
+                {e.runtime} h
+              </p>
 
-                    <h2>
-                      {e.name}
-                    </h2>
+              <p>
+                💧 Humidité :
+                {" "}
+                {e.humidity} %
+              </p>
 
-                    <p>
-                      Type :
-                      {" "}
-                      {e.type}
-                    </p>
+              <p>
+                ⚡ Courant :
+                {" "}
+                {e.currentValue} A
+              </p>
 
-                    <span
-                      className={
-                        `status-badge ${e.status}`
-                      }
-                    >
-                      {e.status}
-                    </span>
+              <p>
+                🔌 Voltage :
+                {" "}
+                {e.voltage} V
+              </p>
 
-                  </div>
-                )
-              )
-            }
+              <span
+                className={`status-badge ${e.status}`}
+              >
+                {e.status}
+              </span>
 
-          </div>
-        )
-      }
+            </div>
+
+          ))}
+
+        </div>
+
+      )}
 
     </div>
   );
